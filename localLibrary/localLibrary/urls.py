@@ -19,3 +19,28 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+# Written code:
+# Ude include() to add paths from the catalog application
+
+from django.urls import include
+urlpatterns += [
+    path('catalog/', include('catalog.urls')),
+]
+
+# Redirecting the root URL 127.0.0.1:8000 to URL 127.0.0.1:8000/catalog
+from django.views.generic import RedirectView
+urlpatterns += [
+    path("", RedirectView.as_view(url='catalog/', permanent=True)),
+]
+
+# use static() to add url mapping to serve static files during "DEVELOPMENT only"
+from django.conf import settings
+from django.conf.urls.static import  static
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
+
+
+
